@@ -13,6 +13,7 @@ public class ToDoListApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ToDoListApplication.class, args);
 		System.out.println("heyy");
+		System.out.println("Now i have chnaged this code");
 	}
 	 public void sendTestEmail() {
 	        emms.sendTestEmail();
