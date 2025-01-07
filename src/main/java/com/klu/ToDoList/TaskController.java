@@ -124,4 +124,44 @@ public class TaskController {
   
 	 
 	  }
+	  @PostMapping("/ask")
+	  @ResponseBody
+	  public String getResponse(@RequestBody String userInput) {
+	      String input = userInput.toLowerCase();
+
+	      // Chatbot logic with multiple responses
+	      if (input.contains("hello") || input.contains("hi")|| input.contains("hey"))  {
+	          return "Hello! How can I assist you today?";
+	      } else if (input.contains("task")) {
+	          return "You can add, view, update, or delete tasks using the options in the menu.";
+	      } else if (input.contains("quote")) {
+	          return "Click on 'Generate Quote' to receive an inspirational quote.";
+	      } else if (input.contains("email")) {
+	          return "We send reminder emails for tasks due tomorrow. Ensure your email is configured!";
+	      } else if (input.contains("reminder")) {
+	          return "Reminders for tasks due tomorrow are sent automatically.";
+	      } else if (input.contains("help")) {
+	          return "Sure! You can ask about tasks, quotes, or reminders.";
+	      } else if (input.contains("due date")) {
+	          return "You can set due dates while creating or updating a task.";
+	      } else if (input.contains("delete")) {
+	          return "To delete a task, use the 'Delete Task' option in the menu.";
+	      } else if (input.contains("view tasks")) {
+	          return "Click on 'View Tasks' to see all your tasks.";
+	      } else if (input.contains("update")) {
+	          return "To update a task, use the 'Update Task' option in the menu.";
+	      } else if (input.contains("how are you")) {
+	          return "I'm just a bot, but I'm here to help you!";
+	      } else if (input.contains("bye") || input.contains("goodbye")) {
+	          return "Goodbye! Have a great day!";
+	      } else if (input.contains("thank you") || input.contains("thanks")) {
+	          return "You're welcome! Let me know if you need anything else.";
+	      } else if (input.contains("what is this")) {
+	          return "This is a To-Do List application to help you manage your tasks efficiently.";
+	      } else {
+	          return "I'm sorry, I didn't understand that. Can you please rephrase?";
+	      }
+	  }
+
+
 }
