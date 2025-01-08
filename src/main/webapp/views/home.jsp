@@ -37,27 +37,70 @@
             background-color: #0056b3;
         }
         #chatbox {
-            max-width: 600px;
-            margin: 20px auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
             background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+        }
+        #chatboxHeader {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
         }
         #messages {
             height: 200px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            margin-bottom: 10px;
+            margin: 0;
             padding: 10px;
-            border-radius: 5px;
         }
         #inputArea {
             display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
         }
         #userInput {
             flex: 1;
             padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #sendButton {
+            margin-left: 5px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+        #chatToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #chatToggle:hover {
+            background: #0056b3;
         }
     </style>
 </head>
@@ -93,17 +136,19 @@
 
     <!-- Chatbot Section -->
     <div id="chatbox">
-        <h3>Chatbot</h3>
+        <div id="chatboxHeader">
+            Chatbot <button onclick="toggleChat()" style="float: right; background: none; border: none; color: white; font-size: 16px;">&times;</button>
+        </div>
         <div id="messages"></div>
         <div id="inputArea">
             <input type="text" id="userInput" placeholder="Type your message here..." />
             <button id="sendButton">Send</button>
         </div>
     </div>
+    <button id="chatToggle" onclick="toggleChat()">💬</button>
 
     <!-- Scripts -->
     <script>
-        // Random Quote Functionality
         function fetchQuote() {
             fetch('/random-quote')
                 .then(response => response.text())
@@ -116,7 +161,18 @@
                 });
         }
 
-        // Chatbot Functionality
+        function toggleChat() {
+            const chatbox = document.getElementById("chatbox");
+            const chatToggle = document.getElementById("chatToggle");
+            if (chatbox.style.display === "none" || chatbox.style.display === "") {
+                chatbox.style.display = "flex";
+                chatToggle.style.display = "none";
+            } else {
+                chatbox.style.display = "none";
+                chatToggle.style.display = "flex";
+            }
+        }
+
         const sendButton = document.getElementById("sendButton");
         const userInput = document.getElementById("userInput");
         const messages = document.getElementById("messages");
@@ -125,12 +181,10 @@
             const input = userInput.value;
             if (input.trim() === "") return;
 
-            // Display user message
             const userMessage = document.createElement("p");
             userMessage.textContent = "You: " + input;
             messages.appendChild(userMessage);
 
-            // Send message to backend
             fetch('/ask', {
                 method: "POST",
                 headers: {
@@ -140,7 +194,6 @@
             })
                 .then(response => response.text())
                 .then(data => {
-                    // Display chatbot response
                     const botMessage = document.createElement("p");
                     botMessage.textContent = "Bot: " + data;
                     messages.appendChild(botMessage);
@@ -151,7 +204,6 @@
                     messages.appendChild(errorMessage);
                 });
 
-            // Clear input field
             userInput.value = "";
         });
     </script>
